@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../models/expense.dart';
 
@@ -16,9 +18,9 @@ class ExpenseItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(expense.category.icon),
+      leading: Icon(expense.category.icon, color: expense.category.color,),
       title: Text(expense.title),
-      subtitle: Text('₹${expense.amount.toStringAsFixed(2)}'),
+      subtitle: Text('${expense.category.label} • ₹${expense.amount.toStringAsFixed(2)}'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
