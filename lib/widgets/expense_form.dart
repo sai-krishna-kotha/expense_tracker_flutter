@@ -6,6 +6,8 @@ class ExpenseForm extends StatelessWidget {
   final VoidCallback onSubmitted;
   final Category? selectedCategory;
   final ValueChanged<Category> onCategoryChanged;
+  final DateTime? selectedDate;
+  final ValueChanged<DateTime> onDateChanged;
 
   const ExpenseForm({
     super.key,
@@ -14,7 +16,22 @@ class ExpenseForm extends StatelessWidget {
     required this.onSubmitted,
     required this.selectedCategory,
     required this.onCategoryChanged,
+    required this.selectedDate,
+    required this.onDateChanged,
   });
+
+
+  Future<void> pickDate(BuildContext context) async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    );
+    if (date != null){
+      onDateChanged(date);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +78,21 @@ class ExpenseForm extends StatelessWidget {
           decoration: const InputDecoration(
             labelText: 'Category',
             border: OutlineInputBorder(),
+          ),
+        ),
+        SizedBox(height: 16,),
+        InkWell(
+          onTap: () => pickDate(context),
+          child: InputDecorator(
+            decoration: InputDecoration(
+              labelText: 'Date',
+              border: OutlineInputBorder(),
+            ),
+            child: Text(
+              selectedDate == null
+                  ? 'Select Date'
+                  : '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+            ),
           ),
         ),
       ],
