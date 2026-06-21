@@ -21,6 +21,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
   final TextEditingController amountController = TextEditingController();
   int? editingIndex;
   Category? selectedCategory;
+  DateTime? selectedDate;
 
   double get totalExpenses {
     double total = 0;
@@ -33,7 +34,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
   void addExpense() {
     final String title = titleController.text.trim();
     final double? amount = double.tryParse(amountController.text);
-    if (selectedCategory == null || title.isEmpty || amount == null || amount <= 0) {
+    if (selectedCategory == null || selectedDate == null || title.isEmpty || amount == null || amount <= 0) {
       return;
     }
     setState(() {
@@ -41,12 +42,13 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         title: title,
         amount: amount,
         category: selectedCategory!,
-        date: DateTime.now(),
+        date: selectedDate!,
       ));
+      selectedCategory = null;
+      selectedDate = null;
     });
     titleController.clear();
     amountController.clear();
-    selectedCategory = null;
   }
 
   void editExpense(int index) {
@@ -56,30 +58,34 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         titleController.clear();
         amountController.clear();
         selectedCategory = null;
+        selectedDate = null;
         return;
       }
       editingIndex = index;
       titleController.text = expenses[index].title;
       amountController.text = expenses[index].amount.toString();
       selectedCategory = expenses[index].category;
+      selectedDate = expenses[index].date;
     });
   }
 
   void updateExpense() {
     final String title = titleController.text.trim();
     final double? amount = double.tryParse(amountController.text);
-    if (editingIndex == null || selectedCategory == null || title.isEmpty || amount == null || amount <= 0) {
+    if (editingIndex == null || selectedDate == null || selectedCategory == null || title.isEmpty || amount == null || amount <= 0) {
       return;
     }
     setState(() {
       expenses[editingIndex!].title = title;
       expenses[editingIndex!].amount = amount;
       expenses[editingIndex!].category = selectedCategory!;
+      expenses[editingIndex!].date = selectedDate!;
       editingIndex = null;
     });
     titleController.clear();
     amountController.clear();
     selectedCategory = null;
+    selectedDate = null;
   }
 
   void deleteExpense(int index) {
@@ -90,6 +96,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         titleController.clear();
         amountController.clear();
         selectedCategory = null;
+        selectedDate = null;
       } else if (editingIndex != null && index < editingIndex!) {
         editingIndex = editingIndex! - 1;
       }
@@ -119,6 +126,12 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
               titleController: titleController,
               amountController: amountController,
               selectedCategory: selectedCategory,
+              selectedDate: selectedDate,
+              onDateChanged: (date) {
+                setState(() {
+                  selectedDate = date;
+                });
+              },
               onCategoryChanged: (category) {
                 // if (category == null) return;
                 setState(() => selectedCategory = category);
