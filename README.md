@@ -63,12 +63,11 @@ A simple Flutter expense tracking application built for learning Flutter fundame
 
 ## Screenshots
 <div style="display: flex; gap: 10px;">
-    <img src="./assets/screenshots/empty_state.png" alt="empty state" width="22%">
-    <img src="./assets/screenshots/add_expense.png" alt="add expense" width="22%">
-    <img src="./assets/screenshots/edit_expense.png" alt="edit expense" width="22%">
-    <img src="./assets/screenshots/list_of_expenses.png" alt="list of all expenses" width="22%">
-</div>>
-Add screenshots here after uploading them to the repository.
+    <img src="./assets/screenshots/empty_state.png" alt="empty state" width="23%">
+    <img src="./assets/screenshots/add_expense.png" alt="add expense" width="23%">
+    <img src="./assets/screenshots/edit_expense.png" alt="edit expense" width="23%">
+    <img src="./assets/screenshots/list_of_expenses.png" alt="list of all expenses" width="23%">
+</div>
 
 ## Future Improvements
 
