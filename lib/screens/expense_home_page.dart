@@ -41,6 +41,7 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         title: title,
         amount: amount,
         category: selectedCategory!,
+        date: DateTime.now(),
       ));
     });
     titleController.clear();

@@ -18,7 +18,7 @@ class ExpenseItem extends StatelessWidget {
     return ListTile(
       leading: Icon(expense.category.icon, color: expense.category.color,),
       title: Text(expense.title),
-      subtitle: Text('${expense.category.label} • ₹${expense.amount.toStringAsFixed(2)}'),
+      subtitle: Text('${expense.category.label} • ₹${expense.amount.toStringAsFixed(2)}\n' '${expense.date.day}/${expense.date.month}/${expense.date.year}'),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
