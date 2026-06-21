@@ -31,6 +31,16 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
     return total;
   }
 
+  void resetForm() {
+    titleController.clear();
+    amountController.clear();
+    setState(() {
+      selectedCategory = null;
+      selectedDate = null;
+      editingIndex = null;
+    });
+  }
+
   void addExpense() {
     final String title = titleController.text.trim();
     final double? amount = double.tryParse(amountController.text);
@@ -44,29 +54,22 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
         category: selectedCategory!,
         date: selectedDate!,
       ));
-      selectedCategory = null;
-      selectedDate = null;
     });
-    titleController.clear();
-    amountController.clear();
+    resetForm();
   }
 
   void editExpense(int index) {
-    setState(() {
       if (index < 0)  {
-        editingIndex = null;
-        titleController.clear();
-        amountController.clear();
-        selectedCategory = null;
-        selectedDate = null;
+        resetForm();
         return;
       }
-      editingIndex = index;
+      setState(() {
+        editingIndex = index;
+        selectedCategory = expenses[index].category;
+        selectedDate = expenses[index].date;
+      });
       titleController.text = expenses[index].title;
       amountController.text = expenses[index].amount.toString();
-      selectedCategory = expenses[index].category;
-      selectedDate = expenses[index].date;
-    });
   }
 
   void updateExpense() {
@@ -80,28 +83,20 @@ class _ExpenseHomePageState extends State<ExpenseHomePage> {
       expenses[editingIndex!].amount = amount;
       expenses[editingIndex!].category = selectedCategory!;
       expenses[editingIndex!].date = selectedDate!;
-      editingIndex = null;
     });
-    titleController.clear();
-    amountController.clear();
-    selectedCategory = null;
-    selectedDate = null;
+    resetForm();
   }
 
   void deleteExpense(int index) {
-
-    setState(() {
       if (index == editingIndex) {
-        editingIndex = null;
-        titleController.clear();
-        amountController.clear();
-        selectedCategory = null;
-        selectedDate = null;
-      } else if (editingIndex != null && index < editingIndex!) {
-        editingIndex = editingIndex! - 1;
+        resetForm();
       }
-      expenses.removeAt(index);
-    });
+      setState(() {
+        if (editingIndex != null && index < editingIndex!) {
+            editingIndex = editingIndex! - 1;
+        }
+        expenses.removeAt(index);
+      });
   }
 
   @override
